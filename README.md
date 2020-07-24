@@ -1,6 +1,6 @@
 # Cortex Builder
 
-This extension generates files for **VSCode** to write, build and debug code for cortex controllers with Arm GCC Toolchain and make tool. List of supported controllers, svd, include files are presented in the [repo](https://github.com/7bnx/Cortex_Builder_Essentials).
+This extension generates files for **VSCode** to write, build and debug code for cortex controllers with Arm GCC Toolchain and make tool. List of supported controllers, svd, include files are presented in the [repo](https://github.com/7bnx/Cortex-Builder-Essentials).
 
 > **WARNING**: Tested with Windows 10 only!
 
