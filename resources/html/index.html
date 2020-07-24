@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <title>Cortex Builder Settings</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <script src="index.js"></script>
+  <style>
+    body {
+        margin: 12px;
+        background-color: transparent;
+        color: var(--vscode-editor-foreground);
+    }
+
+    li {
+        list-style-type: none;
+    }
+    
+    #submit {
+        display: flex;
+        justify-content: center;
+    }
+
+    .form-group {
+        margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <ul class="ulTab">
+      <li class="tabLink" id="tabLinkGeneral"><a href="" onclick="openTab(event, 'tabGeneral');">General</a></li>
+      <li class="tabLink" id="tabLinkTarget"><a href="" onclick="openTab(event, 'tabTarget');">Target</a></li>
+      <li class="tabLink" id="tabLinkCCPP"><a href="" onclick="openTab(event, 'tabCCPP');">C/C++</a></li>
+      <li class="tabLink" id="tabLinkDebug"><a href="" onclick="openTab(event, 'tabDebug');">Debug</a></li>
+      <hr id="hrSelector"/>
+      <hr id="hrUnderline"/>
+    </ul>
+  </div>
+
+  <div id="tabGeneral" class="tabContent" style="margin-top: 32px">
+    <p style="margin-bottom: 0px;">GCC path</p>
+    <small style="font-size: 8pt">.../bin/arm-none-eabi-gcc-9.2.1.exe</small>
+    <form autocomplete="off">
+      <div class="autocomplete" style="width:90%;">
+        <input id="inputCompilerPath" type="text" name="compilerPath" placeholder="Compiler Path" style="width:100%">
+      </div>
+      <input class="inputSubmit" type="submit" title="browse" onclick="setCompilerPath()" value="...">
+    </form>
+    <p style="margin-bottom: 0px;">OpenOCD root path</p>
+    <small style="font-size: 8pt">.../OpenOCD</small>
+    <form autocomplete="off">
+      <div class="autocomplete" style="width:90%;">
+        <input id="inputOpenOCDPath" type="text" name="openOCDPath" placeholder="OpenOCD root Path" style="width:100%">
+      </div>
+      <input class="inputSubmit" type="submit" title="browse" onclick="setOpenOCDPath()" value="...">
+    </form>
+  </div>
+  
+  <div id="tabTarget" class="tabContent" style="margin-top: 32px">
+    <p>Select controller</p>
+    <form autocomplete="off">
+      <div class="autocomplete">
+        <input id="inputSelectedController" type="text" name="selectedController" placeholder="Controller">
+      </div>
+    </form>
+    <p>Flash Start</p>
+    <input id="inputFlashStart" type="text" name="myCountry" placeholder="Flash Start">
+    <p>Stack size</p>
+    <input id="inputStackSize" type="text" name="myCountry" placeholder="Stack size">
+    <p>Heap size</p>
+    <input id="inputHeapSize" type="text" name="myCountry" placeholder="Heap size">
+  </div>
+
+  <div id="tabCCPP" class="tabContent">
+    <div style="display: table-cell">
+      <div class="div1">
+        <p>C++ Standard</p>
+        <div class="custom-select">
+          <select name="cppStandard" id="cppStandard">
+            <option>-</option> 
+            <option value="c++98">c++98</option>
+            <option value="c++11">c++11</option>
+            <option value="c++14">c++14</option>
+            <option value="c++17">c++17</option>
+            <option value="c++20">c++20</option>
+            <option value="gnu++98">gnu++98</option>
+            <option value="gnu++11">gnu++11</option>
+            <option value="gnu++14">gnu++14</option>
+            <option value="gnu++17">gnu++17</option>
+            <option value="gnu++20">gnu++20</option>
+          </select>
+        </div>
+      </div>
+      <div class="div1">
+        <p>C Standard</p>
+        <div class="custom-select">
+          <select name="cppStandard" id="cStandard">
+            <option>-</option> 
+            <option value="c99">c99</option>
+            <option value="c11">c11</option>
+            <option value="gnu99">gnu99</option>
+            <option value="gnu11">gnu11</option>
+          </select>
+        </div>
+      </div>
+      <div class="div1">
+        <p>Optimization</p>
+        <div class="custom-select">
+          <select name="optimization" id="optimization">
+            <option>-</option> 
+            <option value="-O">-O</option>
+            <option value="-O1">-O1</option>
+            <option value="-O2">-O2</option>
+            <option value="-O3">-O3</option>
+            <option value="-Ofast">-Ofast</option>
+            <option value="-Os">-Os</option>
+            <option value="-Og">-Og</option>
+          </select>
+        </div>
+      </div>
+      <div class="div1">
+        <p>Project Type</p>
+        <div class="custom-select">
+          <select name="projectType" id="projectType">
+            <option>-</option> 
+            <option value="C">C</option>
+            <option value="CPP">CPP</option>
+          </select>
+        </div>
+      </div>
+      <div class="div1" style="display:none">
+        <p>Startup Type</p>
+        <div class="custom-select">
+          <select name="startupType" id="startupType">
+            <option>-</option>
+            <option value="ASM">ASM</option>
+            <option value="C">C</option>
+            <option value="CPP">CPP</option>
+          </select>
+        </div>
+      </div>
+    </div>
+      <div>
+        <div>
+          <p style="margin-bottom: 0px;">Defines</p>
+          <small style="font-size: 8pt">DEBUG; VALUE=1;</small>
+          <br>
+          <input id="inputDefines" type="text" name="myCountry" placeholder="Defines" style="width: 90%;">
+          <p style="margin-bottom: 0px;">C Flags</p>
+          <small style="font-size: 8pt">-Wall;-ggdb;</small>
+          <br>
+          <input id="inputFlagsC" type="text" name="myCountry" placeholder="C flags" style="width: 90%;">
+          <p style="margin-bottom: 0px;">CPP Flags</p>
+          <small style="font-size: 8pt">-Wall;-ggdb;</small>
+          <br>
+          <input id="inputFlagsCPP" type="text" name="myCountry" placeholder="CPP Flags" style="width: 90%;">
+          <p style="margin-bottom: 0px;">ASM Flasgs</p>
+          <small style="font-size: 8pt">-Wall;</small>
+          <br>
+          <input id="inputFlagsASM" type="text" name="myCountry" placeholder="Asm flags" style="width: 90%;">
+        </div>
+    </div>
+  </div>
+  <div id="tabDebug" class="tabContent">
+    <div style="display: table-cell">
+      <div class="div1">
+        <p>Server Type</p>
+        <div class="custom-select">
+          <select name="servertype" id="servertype">
+            <option>-</option> 
+            <option value="jlink">jlink</option>
+            <option value="openocd">openocd</option>
+          </select>
+        </div>
+      </div>
+      <div class="div1">
+        <div class="debugTool">
+          <p>Tool</p>
+          <div class="custom-select">
+            <select name="tool" id="tool">
+              <option>-</option> 
+              <option value="jlink">jlink</option>
+              <option value="stlink">stlink</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" title="buttonSave" class="buttonFloat" onclick="buttonSave_Click()">Save</button>
+
+  <script>autocomplete(document.getElementById("inputSelectedController"), controllers);</script>
+  <script>customSelect()</script>
+</body>
+</html>

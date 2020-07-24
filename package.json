@@ -1,0 +1,284 @@
+{
+	"name": "cortex-builder",
+	"displayName": "Cortex Builder",
+	"description": "Write, Build, Debug for ARM cortex",
+	"version": "1.0.0",
+	"publisher": "semyon-ivanov",
+	"readme": "README.md",
+	"license": "SEE LICENSE IN LICENSE.txt",
+	"author": {
+		"name": "Semyon Ivanov",
+		"email": "agreement90@mail.ru",
+		"url": "https://github.com/7bnx"
+	},
+	"os": ["Win32"],
+	"homepage": "https://github.com/7bnx/Cortex-Builder",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/7bnx/Cortex-Builder.git"
+	},
+	"bugs": {
+		"url": "https://github.com/7bnx/Cortex-Builder/issues",
+		"email": "agreement90@mail.ru"
+	},
+	"icon": "resources/media/Icon.png",
+	"galleryBanner": {
+		"color": "#253859",
+		"theme": "dark"
+	},
+	"qna": "https://github.com/7bnx/Cortex-Builder/issues",
+	"engines": {
+		"vscode": "^1.47.0"
+	},
+	"categories": [
+    "Programming Languages",
+		"Debuggers",
+		"Other"
+	],
+	"keywords": [
+    "C",
+		"C++",
+		"CPP",
+		"ASM",
+		"ARM",
+		"Cortex",
+    "Controller",
+		"UC",
+		"STM32",
+		"Debug",
+		"Microcontroller",
+		"CubeMX",
+		"Keil",
+		"IAR",
+		"IDE"
+	],
+	"activationEvents": [
+		"onStartupFinished",
+		"onCommand:task.build",
+		"onCommand:task.clean",
+		"onCommand:task.flash",
+		"onCommand:task.erase",
+		"onCommand:task.reset",
+		"onCommand:task.debug",
+		"onCommand:task.settings",
+		"onCommand:task.newProject",
+		"onCommand:task.expand",
+		"onCommand:task.collapse",
+		"onCommand:treeViewProvider.addExisting",
+		"onCommand:treeViewProvider.addNew",
+		"onCommand:treeViewProvider.deleteFile",
+		"onView:treeViewProvider"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"views": {
+			"explorer": [
+				{
+					"id": "treeViewProvider",
+					"name": "Cortex Builder",
+					"when": "isProjectOpened"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "treeViewProvider.addExisting",
+				"title": "Existing"
+			},
+			{
+				"command": "treeViewProvider.addNew",
+				"title": "New"
+			},			
+			{
+				"command": "treeViewProvider.deleteFile",
+				"title": "Delete"
+			},
+			{
+				"command": "treeViewProvider.openFile",
+				"title": "Open file"
+			},
+			{
+				"command": "task.build",
+				"title": "Build",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/build_light.svg",
+					"dark": "resources/images/dark/build_dark.svg"
+				}
+			},
+			{
+				"command": "task.clean",
+				"title": "Clean",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/clean_light.svg",
+					"dark": "resources/images/dark/clean_dark.svg"
+				}
+			},
+			{
+				"command": "task.flash",
+				"title": "Write",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/flash_light.svg",
+					"dark": "resources/images/dark/flash_dark.svg"
+				}
+			},
+			{
+				"command": "task.erase",
+				"title": "Erase",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/erase_light.svg",
+					"dark": "resources/images/dark/erase_dark.svg"
+				}
+			},
+			{
+				"command": "task.reset",
+				"title": "Reset",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/reset_light.svg",
+					"dark": "resources/images/dark/reset_dark.svg"
+				}
+			},
+			{
+				"command": "task.debug",
+				"title": "Debug",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/debug_light.svg",
+					"dark": "resources/images/dark/debug_dark.svg"
+				}
+			},
+			{
+				"command": "task.settings",
+				"title": "Settings",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/settings_light.svg",
+					"dark": "resources/images/dark/settings_dark.svg"
+				}
+			},
+			{
+				"command": "task.newProject",
+				"title": "New Project",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/newProject_light.svg",
+					"dark": "resources/images/dark/newProject_dark.svg"
+				}
+			},
+			{
+				"command": "task.expand",
+				"title": "Expand bar",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/expand_light.svg",
+					"dark": "resources/images/dark/expand_dark.svg"
+				}
+			},
+			{
+				"command": "task.collapse",
+				"title": "Collapse bar",
+				"category": "menubar",
+				"icon":{
+					"light": "resources/images/light/collapse_light.svg",
+					"dark": "resources/images/dark/collapse_dark.svg"
+				}
+			}
+		],
+		"menus": {
+			"view/item/context": [
+				{
+					"command": "treeViewProvider.addExisting",
+					"when": "view == treeViewProvider && viewItem == RootTreeViewItem",
+					"group": "inline"
+				},
+				{
+					"command": "treeViewProvider.addNew",
+					"when": "view == treeViewProvider && viewItem == RootTreeViewItem",
+					"group": "inline"
+				},
+				{
+					"command": "treeViewProvider.deleteFile",
+					"when": "view == treeViewProvider && viewItem == AddedTreeViewItem",
+					"group": "inline"
+				}
+			],
+			"editor/title": [
+				{
+					"when": "isProjectOpened",
+					"command": "task.build",
+					"group": "navigation@0"
+				},
+				{
+					"when": "isProjectOpened && isBarExpanded",
+					"command": "task.clean",
+					"group": "navigation@0"
+				},
+				{
+					"when": "isProjectOpened",
+					"command": "task.flash",
+					"group": "navigation@1"
+				},
+				{
+					"when": "isProjectOpened && isBarExpanded",
+					"command": "task.erase",
+					"group": "navigation@2"
+				},
+				{
+					"when": "isProjectOpened && isBarExpanded",
+					"command": "task.reset",
+					"group": "navigation@2"
+				},
+				{
+					"when": "isProjectOpened && isBarExpanded",
+					"command": "task.debug",
+					"group": "navigation@3"
+				},
+				{
+					"when": "isProjectOpened && isBarExpanded",
+					"command": "task.settings",
+					"group": "navigation@3"
+				},
+				{
+					"when": "isControllersListReceived && isBarExpanded",
+					"command": "task.newProject",
+					"group": "navigation@3"
+				},
+				{
+					"when": "isProjectOpened && !isBarExpanded",
+					"command": "task.expand",
+					"group": "navigation@4"
+				},
+				{
+					"when": "isProjectOpened && isBarExpanded",
+					"command": "task.collapse",
+					"group": "navigation@4"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint src --ext ts",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.46.0",
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^7.0.2",
+		"@types/node": "^13.11.0",
+		"eslint": "^6.8.0",
+		"@typescript-eslint/parser": "^2.30.0",
+		"@typescript-eslint/eslint-plugin": "^2.30.0",
+		"glob": "^7.1.6",
+		"mocha": "^7.1.2",
+		"typescript": "^3.8.3",
+		"vscode-test": "^1.3.0"
+	}
+}

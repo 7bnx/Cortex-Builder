@@ -1,0 +1,261 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font: 300 100% 'Helvetica Neue', Helvetica, Arial;
+  margin-left: 0%;
+  padding-left: 0%;
+  color: var(--vscode-editor-foreground);
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ulTab li {
+  display: inline;
+  text-align: center;
+  align-content: stretch;
+}
+
+a {
+  display: inline-block;
+  width: 10%;
+  padding: .75rem 0;
+  margin: 0;
+  text-decoration: none;
+  font-size: var(--vscode-editor-font-size);
+  color: var(--vscode-editor-foreground);
+  text-align: center;
+  border: 0;
+  min-width: fit-content;
+}
+
+a:link{
+  outline: none;
+}
+
+a:hover{
+  color: var(--vscode-editor-foreground);
+}
+
+#hrSelector {
+  height: .10rem; 
+  width: var(--selectorWidth);
+  margin-left: var(--selectorLeftMargin); 
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  background: var(--vscode-editor-foreground);
+  border: none;
+  transition: .05s ease-in-out;
+  position: absolute;
+}
+#hrUnderline {
+  height: .10rem;
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: none;
+  background: var(--vscode-tab-inactiveBackground);
+}
+
+.tabContent {
+  display: none;
+  border: none;
+  margin-left: 50px;
+}
+
+/**/
+
+* { box-sizing: border-box; }
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+}
+input {
+  border: 1px solid var(--vscode-dropdown-border);
+  background-color: var(--vscode-dropdown-background);
+  padding: 5px;
+  width:300px;
+}
+input[type=text] {
+  background-color:var(--vscode-dropdown-background);
+  color: var(--vscode-dropdown-foreground);
+}
+
+input:focus{
+  border-color: var(--vscode-button-hoverBackground);
+  outline: none;
+}
+
+input:hover{
+  border-color: var(--vscode-button-hoverBackground);
+  outline: none;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid var(--vscode-button-hoverBackground);
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+  font-size: 10pt;
+  border-bottom: 1px solid var(--vscode-button-hoverBackground);
+  background-color: var(--vscode-dropdown-background);
+}
+.autocomplete-items div {
+  padding: 2px;
+  cursor: pointer;
+  background-color: var(--vscode-dropdown-background);
+}
+.autocomplete-items div:hover {
+  /*when hovering an item:*/
+  background-color: var(--vscode-button-hoverBackground);
+}
+.autocomplete-active {
+  /*when navigating through the items using the arrow keys:*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+/**/
+
+/* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  font-size: 10pt;
+  width:100px;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element: */
+}
+
+.select-selected {
+  background-color: var(--vscode-dropdown-background);
+  border: 1px solid var(--vscode-dropdown-border);
+}
+
+.select-selected:hover {
+  border-color: var(--vscode-button-hoverBackground);
+}
+
+.select-selected:active {
+  border-color: var(--vscode-button-hoverBackground);
+}
+
+.select-selected:focus {
+  border-color: var(--vscode-button-hoverBackground);
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 10px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: var(--vscode-button-hoverBackground) transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent var(--vscode-button-hoverBackground) transparent;
+  top: 5px;
+  
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color: var(--vscode-dropdown-foreground);
+  padding: 5px 5px;
+  cursor: pointer;
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  background-color: var(--vscode-dropdown-background);
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  border-left: 1px solid var(--vscode-button-hoverBackground);
+  border-right: 1px solid var(--vscode-button-hoverBackground);
+  border-bottom: 1px solid var(--vscode-button-hoverBackground);
+  width: 100%;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.div1 {
+  float: left;
+  width: 150px;
+  top: 0;
+ }
+
+ .buttonFloat{
+	position:fixed;
+	width:60px;
+	height:30px;
+	bottom:5%;
+	right: 5%;
+	background-color:var(--vscode-button-background);
+  color: var(--vscode-editor-foreground);
+	border-radius:3px;
+  text-align:center;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+.buttonFloat:active{
+  outline: none;
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.buttonFloat:hover{
+  outline: none;
+  background-color: var(--vscode-button-hoverBackground);
+}
+
+.inputSubmit{
+  background-color:var(--vscode-button-background);
+  width:35px;
+  font-size: 10pt;
+  color: var(--vscode-editor-foreground);
+  text-align: center;
+  border-radius:3px;
+  border: none;
+  outline: none;
+}
+
+.inputSubmit:active{
+  outline: none;
+  background-color: var(--vscode-button-hoverBackground);
+}
+.inputSubmit:hover{
+  outline: none;
+  background-color: var(--vscode-button-hoverBackground);
+}
