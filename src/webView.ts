@@ -307,10 +307,11 @@ function SetSettings1(data:any, state:boolean = false){
     nStartupCreator.Replace(projectSettings.core, projectSettings.startupFPU, projectSettings.interrupts);
   }
   if (isMakeFileChanges){
-    nMakefile.Replace(projectSettings.projectType, projectSettings.core, 
+    nMakefile.Replace(projectSettings.projectType, projectSettings.core, projectSettings.flashStart, 
       projectSettings.makefileFPU, projectSettings.makefileFLOATABI,
       projectSettings.standardC, projectSettings.standardCPP, projectSettings.optimization, projectSettings.defines,
-      projectSettings.includesDir, projectSettings.sources);
+      projectSettings.includesDir, projectSettings.sources, 
+      projectSettings.flagsASM, projectSettings.flagsC, projectSettings.flagsCPP);
   }
   if (data.debugger === 'jlink'){nJLink.New();}
   else{ nJLink.Delete();}

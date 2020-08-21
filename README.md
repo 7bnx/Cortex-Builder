@@ -10,13 +10,28 @@ This extension generates files for **VSCode** to write, build and debug code for
  - Debug servers: j-link, openOCD
  - Output: hex, bin, elf
  - C/CPP project type
- - [Corter-debug](https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug) configuration
+ - [Cortex-debug](https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug) configuration
  - A lot of essential settings(standard, optimization...)
  - Buttons: Build/Clean/Flash/Erase/Reset/Debug/New Project/Settings
   
     ![MenuBar](https://raw.githubusercontent.com/7bnx/Cortex-Builder/master/resources/media/MenuBar.gif)
 
 ## Release Notes
+
+### 1.0.1
+
+##### Improvements 
+
+ - Makefile:
+     - Add *echo* to print current compiling file ( *c*, *c++*, *s*)
+     - Reduce output *asm* by adding *--start-address*
+     - Visualize jumps by drawing ASCII art lines
+
+##### Fixes 
+
+ - Makefile:
+     - ASM, C, CPP Compile flags did not change via settings
+     
 ### 1.0.0
 
 Initial release
@@ -24,7 +39,7 @@ Initial release
 ## Usage
 
 ### New Project
-0. Make sure to match all [Requirements](##Requirements)
+0. Make sure to match all [Requirements](#Requirements)
 1. Open new VSCode window with any document(for example - *Welcome page*)
 2. Press New Project button
 3. Select controller
@@ -45,7 +60,7 @@ The new file will be saved in `.../projectRootFolder/user/`
 
 ## Requirements
 - **VSCode extensions:**
-    - [Corter-debug](https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug) by marus25
+    - [Cortex-debug](https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug) by marus25
     - [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 - [**Arm GCC Toolchain**](https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/);
 - **Make tool:**

@@ -288,7 +288,7 @@ function SetSettings1(data, state = false) {
         nStartupCreator.Replace(CortexBuilder_1.projectSettings.core, CortexBuilder_1.projectSettings.startupFPU, CortexBuilder_1.projectSettings.interrupts);
     }
     if (isMakeFileChanges) {
-        nMakefile.Replace(CortexBuilder_1.projectSettings.projectType, CortexBuilder_1.projectSettings.core, CortexBuilder_1.projectSettings.makefileFPU, CortexBuilder_1.projectSettings.makefileFLOATABI, CortexBuilder_1.projectSettings.standardC, CortexBuilder_1.projectSettings.standardCPP, CortexBuilder_1.projectSettings.optimization, CortexBuilder_1.projectSettings.defines, CortexBuilder_1.projectSettings.includesDir, CortexBuilder_1.projectSettings.sources);
+        nMakefile.Replace(CortexBuilder_1.projectSettings.projectType, CortexBuilder_1.projectSettings.core, CortexBuilder_1.projectSettings.flashStart, CortexBuilder_1.projectSettings.makefileFPU, CortexBuilder_1.projectSettings.makefileFLOATABI, CortexBuilder_1.projectSettings.standardC, CortexBuilder_1.projectSettings.standardCPP, CortexBuilder_1.projectSettings.optimization, CortexBuilder_1.projectSettings.defines, CortexBuilder_1.projectSettings.includesDir, CortexBuilder_1.projectSettings.sources, CortexBuilder_1.projectSettings.flagsASM, CortexBuilder_1.projectSettings.flagsC, CortexBuilder_1.projectSettings.flagsCPP);
     }
     if (data.debugger === 'jlink') {
         nJLink.New();
