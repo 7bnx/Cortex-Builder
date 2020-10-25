@@ -2,7 +2,7 @@
 	"name": "cortex-builder",
 	"displayName": "Cortex Builder",
 	"description": "Write, Build, Debug for ARM cortex",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"publisher": "semyon-ivanov",
 	"readme": "README.md",
 	"license": "SEE LICENSE IN LICENSE.txt",

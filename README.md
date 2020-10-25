@@ -18,6 +18,13 @@ This extension generates files for **VSCode** to write, build and debug code for
 
 ## Release Notes
 
+### 1.0.2
+
+##### Fixes 
+
+ - Makefile:
+     - Change 'clean' target to be compatible with [Windows Build Tools](https://github.com/xpack-dev-tools/windows-build-tools-xpack/releases)
+
 ### 1.0.1
 
 ##### Improvements 
