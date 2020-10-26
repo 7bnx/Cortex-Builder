@@ -2,6 +2,19 @@
 
 ## Release Notes
 
+### 1.0.3
+
+##### Improvements
+
+ - openeOCD
+     - Remove 'reset' of target after erase
+     - Add echo 'Done'
+
+##### Fixes 
+
+ - Jlink:
+     - Fixed issue of jlink with openOCD (Flash, Erase, Reset)
+
 ### 1.0.2
 
 ##### Fixes 

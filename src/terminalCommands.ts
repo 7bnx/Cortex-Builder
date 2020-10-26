@@ -3,10 +3,11 @@ import * as path from 'path';
 import {projectSettings} from './Creator/CortexBuilder';
 import * as nLaunch from './Creator/Launch';
 
+const _windowsEchoEnd:string = " & echo. & echo Done";
 const _buildCommand:string = "make -s -j 10 all";
 const _cleanCommand:string = "make -s clean";
 export function _flashOpeocdCommand():string {return ` -c "init; reset halt; flash write_image erase output/${projectSettings.projectName}.hex; reset; exit"`;}
-export const _eraseOpeocdCommand:string = ` -c "init; reset halt; flash erase_sector 0 0 1; reset; exit"`;
+export const _eraseOpeocdCommand:string = ` -c "init; reset halt; flash erase_sector 0 0 1; exit"`;
 export const _resetOpeocdCommand:string = ` -c "init; reset; exit"`;
 
 function writeCommand(command: string, taskName: string): Thenable<void>{
@@ -52,7 +53,7 @@ export function Clean(){
 export function Flash(): Thenable<void> {
   return new Promise((resolve, reject) => {
     let command = JlinkCommand('Flash');
-    if (projectSettings.servertype === 'openocd' && projectSettings.debugger !== 'jlink'){
+    if (projectSettings.servertype === 'openocd'){
       command = OpenocdCommand(_flashOpeocdCommand());
     }
     writeCommand(command, "Flash").then(() => resolve());
@@ -61,7 +62,7 @@ export function Flash(): Thenable<void> {
 
 export function Read(){
   let command = JlinkCommand('Read');
-  if (projectSettings.servertype === 'openocd' && projectSettings.debugger !== 'jlink'){
+  if (projectSettings.servertype === 'openocd'){
       //command = OpenocdCommand(_eraseOpeocdCommand);
   }
   writeCommand(command, "Erase");
@@ -69,7 +70,7 @@ export function Read(){
 
 export function Erase(){
   let command = JlinkCommand('Erase');
-  if (projectSettings.servertype === 'openocd' && projectSettings.debugger !== 'jlink'){
+  if (projectSettings.servertype === 'openocd'){
       command = OpenocdCommand(_eraseOpeocdCommand);
   }
   writeCommand(command, "Erase");
@@ -77,7 +78,7 @@ export function Erase(){
 
 export function Reset(){
   let command = JlinkCommand('Reset');
-  if (projectSettings.servertype === 'openocd' && projectSettings.debugger !== 'jlink'){
+  if (projectSettings.servertype === 'openocd'){
     command = OpenocdCommand(_resetOpeocdCommand);
   }
   writeCommand(command, "Reset");
@@ -103,6 +104,6 @@ export function OpenocdCommand(command:string):string{
   configFiles.forEach(file => {
     _command += ' -f ' + file; 
   });
-  _command += command;
+  _command += command + _windowsEchoEnd;
   return _command; 
 }

@@ -256,8 +256,8 @@ all: $(OUTPUT_PATH)/$(TARGET).elf $(OUTPUT_PATH)/$(TARGET).hex $(OUTPUT_PATH)/$(
 \t@echo "Build Completed."
 
 clean:
-\tif exist $(OUTPUT_PATH)\ rd /q /s $(OUTPUT_PATH)
-\tif exist $(BUILD_PATH)\ rd /q /s $(BUILD_PATH)
+\trm -rf $(OUTPUT_PATH)
+\trm -rf $(BUILD_PATH)
 \t@echo "Clean Completed." 
 #-----------------------------------------------------------------------------------------
 #	End of Actions

@@ -5,11 +5,12 @@ const vscode = require("vscode");
 const path = require("path");
 const CortexBuilder_1 = require("./Creator/CortexBuilder");
 const nLaunch = require("./Creator/Launch");
+const _windowsEchoEnd = " & echo. & echo Done";
 const _buildCommand = "make -s -j 10 all";
 const _cleanCommand = "make -s clean";
 function _flashOpeocdCommand() { return ` -c "init; reset halt; flash write_image erase output/${CortexBuilder_1.projectSettings.projectName}.hex; reset; exit"`; }
 exports._flashOpeocdCommand = _flashOpeocdCommand;
-exports._eraseOpeocdCommand = ` -c "init; reset halt; flash erase_sector 0 0 1; reset; exit"`;
+exports._eraseOpeocdCommand = ` -c "init; reset halt; flash erase_sector 0 0 1; exit"`;
 exports._resetOpeocdCommand = ` -c "init; reset; exit"`;
 function writeCommand(command, taskName) {
     return new Promise((resolve, reject) => {
@@ -47,7 +48,7 @@ exports.Clean = Clean;
 function Flash() {
     return new Promise((resolve, reject) => {
         let command = JlinkCommand('Flash');
-        if (CortexBuilder_1.projectSettings.servertype === 'openocd' && CortexBuilder_1.projectSettings.debugger !== 'jlink') {
+        if (CortexBuilder_1.projectSettings.servertype === 'openocd') {
             command = OpenocdCommand(_flashOpeocdCommand());
         }
         writeCommand(command, "Flash").then(() => resolve());
@@ -56,7 +57,7 @@ function Flash() {
 exports.Flash = Flash;
 function Read() {
     let command = JlinkCommand('Read');
-    if (CortexBuilder_1.projectSettings.servertype === 'openocd' && CortexBuilder_1.projectSettings.debugger !== 'jlink') {
+    if (CortexBuilder_1.projectSettings.servertype === 'openocd') {
         //command = OpenocdCommand(_eraseOpeocdCommand);
     }
     writeCommand(command, "Erase");
@@ -64,7 +65,7 @@ function Read() {
 exports.Read = Read;
 function Erase() {
     let command = JlinkCommand('Erase');
-    if (CortexBuilder_1.projectSettings.servertype === 'openocd' && CortexBuilder_1.projectSettings.debugger !== 'jlink') {
+    if (CortexBuilder_1.projectSettings.servertype === 'openocd') {
         command = OpenocdCommand(exports._eraseOpeocdCommand);
     }
     writeCommand(command, "Erase");
@@ -72,7 +73,7 @@ function Erase() {
 exports.Erase = Erase;
 function Reset() {
     let command = JlinkCommand('Reset');
-    if (CortexBuilder_1.projectSettings.servertype === 'openocd' && CortexBuilder_1.projectSettings.debugger !== 'jlink') {
+    if (CortexBuilder_1.projectSettings.servertype === 'openocd') {
         command = OpenocdCommand(exports._resetOpeocdCommand);
     }
     writeCommand(command, "Reset");
@@ -98,7 +99,7 @@ function OpenocdCommand(command) {
     configFiles.forEach(file => {
         _command += ' -f ' + file;
     });
-    _command += command;
+    _command += command + _windowsEchoEnd;
     return _command;
 }
 exports.OpenocdCommand = OpenocdCommand;

@@ -18,6 +18,19 @@ This extension generates files for **VSCode** to write, build and debug code for
 
 ## Release Notes
 
+### 1.0.3
+
+##### Improvements
+
+ - openeOCD
+     - Remove 'reset' of target after erase
+     - Add echo 'Done'
+
+##### Fixes 
+
+ - Jlink:
+     - Fixed issue of jlink with openOCD (Flash, Erase, Reset)
+
 ### 1.0.2
 
 ##### Fixes 
@@ -38,10 +51,7 @@ This extension generates files for **VSCode** to write, build and debug code for
 
  - Makefile:
      - ASM, C, CPP Compile flags did not change via settings
-     
-### 1.0.0
 
-Initial release
 
 ## Usage
 
