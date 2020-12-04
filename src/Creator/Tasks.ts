@@ -8,7 +8,7 @@ import {projectSettings} from './CortexBuilder';
 
 const fileName:string = "tasks.json";
 const fileDir:string = ".vscode";
-const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath,fileDir);
+const filePath:string = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '',fileDir);
 const fullPath:string = path.join(filePath, fileName);
 
 export function New(projectPath: string = filePath, controller:nJsonController.Data){

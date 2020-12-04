@@ -5,7 +5,7 @@ const fs = require("fs");
 const vscode = require("vscode");
 const path = require("path");
 const ext = ".jlink";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : path.join(vscode.workspace.rootPath, 'Jlink'));
+const filePath = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '', 'Jlink');
 function New(projectName = '', projectPath = '') {
     if (projectName === '' || projectPath === '') {
         projectPath = filePath;

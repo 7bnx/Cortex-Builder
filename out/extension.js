@@ -5,7 +5,7 @@ const vscode = require("vscode");
 const nNewProject = require("./createNewProject");
 const nStartup = require("./startup");
 const nTerminalCommands = require("./terminalCommands");
-const nWebView = require("./webView");
+const nSettings = require("./settings");
 function activate(context) {
     nStartup.exec(context);
     let build = vscode.commands.registerCommand('task.build', () => {
@@ -27,7 +27,7 @@ function activate(context) {
         nTerminalCommands.Debug();
     });
     let settings = vscode.commands.registerCommand('task.settings', () => {
-        nWebView.Show();
+        nSettings.Show();
     });
     let newProject = vscode.commands.registerCommand('task.newProject', () => {
         nNewProject.createNewProject();

@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as nJsonController from '../JsonData/Controller';
 
 const fileName:string = "Startup.s";
-const dirPath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath);
+const dirPath:string = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '';
 
 export function New(projectPath: string,  controller: nJsonController.Data){
   Replace(controller.core, controller.startupFPU, controller.interrupts, projectPath);

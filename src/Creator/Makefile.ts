@@ -5,7 +5,7 @@ import * as nJsonController from '../JsonData/Controller';
 import {context} from '../startup';
 
 const fileName:string = "Makefile";
-const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath);
+const filePath:string = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '';
 const fullPath:string = path.join(filePath, fileName);
 
 export function Replace(projectType:string, core:string, flashStart:string, makefileFPU:string, makefileFLOATABI:string,

@@ -4,6 +4,7 @@ import {projectSettings} from './Creator/CortexBuilder';
 import * as nLaunch from './Creator/Launch';
 
 const _windowsEchoEnd:string = " & echo. & echo Done";
+//const _windowsEchoEnd:string = "";
 const _buildCommand:string = "make -s -j 10 all";
 const _cleanCommand:string = "make -s clean";
 export function _flashOpeocdCommand():string {return ` -c "init; reset halt; flash write_image erase output/${projectSettings.projectName}.hex; reset; exit"`;}
@@ -13,8 +14,8 @@ export const _resetOpeocdCommand:string = ` -c "init; reset; exit"`;
 function writeCommand(command: string, taskName: string): Thenable<void>{
   return new Promise((resolve, reject) => {
     let op:vscode.ShellExecutionOptions = {
-      executable: "cmd.exe",
-      shellArgs: ["/C"],
+      //executable: "cmd.exe",
+      //shellArgs: ["/C"],
     };
     let execution = new vscode.ShellExecution(
         command, op);

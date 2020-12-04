@@ -8,9 +8,9 @@ import {context} from '../startup';
 
 const fileName:string = "cortexbuilder.json";
 const fileDir:string = ".vscode";
-const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath,fileDir);
+const filePath:string = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '',fileDir);
 const fullPath:string = path.join(filePath, fileName);
-export let projectSettings:nJsonCortexBuilder.Data;
+export var projectSettings:nJsonCortexBuilder.Data;
 
 export function New(projectPath: string = filePath, controller:nJsonController.Data){
   let projectName = (projectPath.split(path.sep))[projectPath.split(path.sep).length - 1];
@@ -30,11 +30,17 @@ export function New(projectPath: string = filePath, controller:nJsonController.D
   if (servertype === 'openocd'){
     let rootPath:string = context.globalState.get('openOCDPath','');
     if (rootPath !== ''){
-      rootPath = path.join(rootPath, 'share', 'openocd', 'scripts');
+      //rootPath = path.join(rootPath, 'share', 'openocd', 'scripts');
       openocdTransport = path.join(rootPath, 'interface', debugger_ + '.cfg');
       openocdDevice = path.join(rootPath, 'target', controller.openocdTaskDevice + '.cfg');
+      if (!fs.existsSync(openocdTransport)){vscode.window.showErrorMessage("Can't find " + openocdTransport + ". Check OpenOCD Path");}
+      if (!fs.existsSync(openocdTransport)){vscode.window.showErrorMessage("Can't find " + openocdDevice + ". Check OpenOCD Path");}
     }
   }
+  let documentation = PrepareDocumentation(controller.documentation);
+
+  let documentationPage = new Array<number>(documentation.length).fill(1);
+  let documentationScale = new Array<string>(documentation.length).fill('page-width');
   projectSettings = {
     projectName: projectName,
     isFirstLaunch: true,
@@ -72,7 +78,10 @@ export function New(projectPath: string = filePath, controller:nJsonController.D
     flagsASM: ["-Wall", "-fdata-sections", "-ffunction-sections"],
     flagsC: ["-Wall","-fdata-sections", "-ffunction-sections", "-ggdb"],
     flagsCPP:  ["-Wall", "-fdata-sections","-ffunction-sections","-fno-exceptions","-ggdb"],
-    interrupts: controller.interrupts
+    interrupts: controller.interrupts,
+    documentation: documentation,
+    documentationPage: documentationPage,
+    documentationScale: documentationScale
   };
   let jsonObject = JSON.stringify(projectSettings, null, "\t");
   if (!fs.existsSync(projectPath)){fs.mkdirSync(projectPath, {recursive: true});}
@@ -85,9 +94,11 @@ export function Replace(isOpenOCDConfigChanges:boolean = false){
     projectSettings.openocdTransportPath = '';
     projectSettings.openocdDevicePath = '';
     if (context.globalState.get('openOCDPath') !== undefined && context.globalState.get('openOCDPath') !== ''){
-      let partialPath = path.join(context.globalState.get('openOCDPath') as string, 'share', 'openocd', 'scripts');
+      let partialPath = context.globalState.get('openOCDPath') as string;
       projectSettings.openocdTransportPath = path.join(partialPath, 'interface', projectSettings.debugger + '.cfg');
       projectSettings.openocdDevicePath = path.join(partialPath, 'target', projectSettings.openocdTaskDevice + '.cfg');
+      if (!fs.existsSync(projectSettings.openocdTransportPath)){vscode.window.showErrorMessage("Can't find " + projectSettings.openocdTransportPath + ". Check OpenOCD Path");}
+      if (!fs.existsSync(projectSettings.openocdTransportPath)){vscode.window.showErrorMessage("Can't find " + projectSettings.openocdTransportPath + ". Check OpenOCD Path");}
     }
   }
   Write(projectSettings);
@@ -196,8 +207,33 @@ export function Get(): Promise<nJsonCortexBuilder.Data>{
   });
 }
 
-function Write(jsonData:nJsonCortexBuilder.Data){
+export function Write(jsonData:nJsonCortexBuilder.Data){
+  
   if (!fs.existsSync(filePath)){fs.mkdirSync(filePath, {recursive: true});}
   let jsonObject = JSON.stringify(jsonData, null, "\t");
   fs.writeFile(fullPath,jsonObject, () =>{});
+}
+
+export function GetDocumentationPosition(uri: vscode.Uri) : number | undefined{
+  var name = path.basename(uri.toString(), '.pdf');
+  if (!projectSettings.documentation){return undefined;}
+  let i: number = 0;
+  for(; i < projectSettings.documentation.length; ++i){
+    if (path.basename(projectSettings.documentation[i], '.pdf') === name){
+      return i;
+    }
+  }
+  return undefined;
+}
+
+export function PrepareDocumentation(documentation:string[]): string[]{
+  let docs:string[] = [];
+  if (documentation) {
+    docs = new Array(documentation.length);
+    documentation.forEach((doc, index) =>{
+      let name = path.basename(doc) + ".pdf";
+      docs[index] = path.join(context.globalStoragePath, 'Documentation', doc, name);
+    });
+  }
+  return docs;
 }

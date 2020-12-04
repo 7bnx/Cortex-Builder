@@ -36,4 +36,7 @@ export interface Data{
   flagsC:               string[];
   flagsCPP:             string[];
   interrupts:           string[];
+  documentation:        string[];
+  documentationPage:    number[];
+  documentationScale:   string[];
 }

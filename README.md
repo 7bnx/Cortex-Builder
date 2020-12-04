@@ -1,14 +1,25 @@
 # Cortex Builder
 
+![Front](https://raw.githubusercontent.com/7bnx/Cortex-Builder/master/resources/media/Front.png)
+
 This extension generates files for **VSCode** to write, build and debug code for cortex controllers with Arm GCC Toolchain and make tool. List of supported controllers, svd, include files are presented in the [repo](https://github.com/7bnx/Cortex-Builder-Essentials).
 
 > **WARNING**: Tested with Windows 10 only!
 
+## Support
+
+If you like this extension, you could support its development
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/7bnx)
+
+
 ## Features
  - Automatically download svd, core, include (Keil's version) files
+ - Documentation for supported controllers
  - Tools: j-link, st-link
  - Debug servers: j-link, openOCD
  - Output: hex, bin, elf
+ - No need external IDE
  - C/CPP project type
  - [Cortex-debug](https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug) configuration
  - A lot of essential settings(standard, optimization...)
@@ -18,6 +29,20 @@ This extension generates files for **VSCode** to write, build and debug code for
 
 ## Release Notes
 
+### 1.0.4
+
+##### Features
+
+ - Documentation
+     - Added Pdf.JS
+     - Controllers documentation will be automaticcaly added to the new projects
+ - Busy bar for long-time operation (new project, save settings)
+
+##### Changes
+
+  - OpenOCD
+     - Changed path. The new one should point to directory with folders *target* and *interface*
+     
 ### 1.0.3
 
 ##### Improvements
@@ -38,20 +63,6 @@ This extension generates files for **VSCode** to write, build and debug code for
  - Makefile:
      - Change 'clean' target to be compatible with [Windows Build Tools](https://github.com/xpack-dev-tools/windows-build-tools-xpack/releases)
 
-### 1.0.1
-
-##### Improvements 
-
- - Makefile:
-     - Add *echo* to print current compiling file ( *c*, *c++*, *s*)
-     - Reduce output *asm* by adding *--start-address*
-     - Visualize jumps by drawing ASCII art lines
-
-##### Fixes 
-
- - Makefile:
-     - ASM, C, CPP Compile flags did not change via settings
-
 
 ## Usage
 
@@ -62,7 +73,7 @@ This extension generates files for **VSCode** to write, build and debug code for
 3. Select controller
 4. Choose folder and project name
 5. Open project
-6. For the first launch: add paths to the *compiler* (e.g.: `.../bin/arm-none-eabi-gcc-9.3.1.exe`) and root folder of the *openOCD* (if needed) in the settings. 
+6. For the first launch: add path to the *compiler* (e.g.: `.../bin/arm-none-eabi-gcc-9.3.1.exe`) and path (if needed ) to *openOCD*'s folders(target and interface) in the project settings. 
 
 ### Add Source
 1. Click *Source -> New* in the *Cortex Builder* explorer
@@ -81,7 +92,7 @@ The new file will be saved in `.../projectRootFolder/user/`
     - [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
 - [**Arm GCC Toolchain**](https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/);
 - **Make tool:**
-    - [GNU Make](http://gnuwin32.sourceforge.net/packages/make.htm) or [Windows Build Tools](https://github.com/xpack-dev-tools/windows-build-tools-xpack/releases)
+    - [Windows Build Tools](https://github.com/xpack-dev-tools/windows-build-tools-xpack/releases)
 - **Debugger server:**
     - [j-link](https://www.segger.com/downloads/jlink/#J-LinkSoftwareAndDocumentationPack) or [openOCD](https://gnutoolchains.com/arm-eabi/openocd/)
 
@@ -100,9 +111,6 @@ Extension was tested with the followings parameters:
     - *9.2*
     - *8.3.1*
 - **Make:**
-    - GNU Make:
-        - *3.8.1*
-        - *4.3*
     - Windows Build Tools:
         - *2.12 (GNU Make 4.2.1)*
 - **Debugging server:**

@@ -8,7 +8,7 @@ import {projectSettings} from './CortexBuilder';
 
 const fileName:string = "c_cpp_properties.json";
 const fileDir:string = ".vscode";
-const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath,fileDir);
+const filePath:string = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '',fileDir);
 const fullPath:string = path.join(filePath, fileName);
 
 export function New(projectPath: string = filePath, include: string, defines:string[]){
@@ -23,7 +23,7 @@ export function New(projectPath: string = filePath, include: string, defines:str
   let cppStandard:string = context.globalState.get('cppStandard', 'c++17');
 
   let configuration:nJsonC_CPP_Properties.Configuration = {
-    name: "win32",
+    name: "Cortex-Builder",
     compilerPath: compilerPath,
     defines:  defines,
     includePath: includesDir,

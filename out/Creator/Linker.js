@@ -5,7 +5,7 @@ const fs = require("fs");
 const vscode = require("vscode");
 const path = require("path");
 const fileName = "Linker.ld";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath);
+const filePath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';
 const fullPath = path.join(filePath, fileName);
 function New(projectPath, controller) {
     Replace(controller.ramStart, controller.flashStart, controller.ramEnd, controller.ramSizeK, controller.flashSizeK, controller.heapSize, controller.stackSize, projectPath);

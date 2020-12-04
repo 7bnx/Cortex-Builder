@@ -6,12 +6,13 @@ import * as nC_CPP_Properties from './Creator/C_CPP_Properties';
 import * as nCortexBuilder from './Creator/CortexBuilder';
 
 
-export class TreeViewProvider implements vscode.TreeDataProvider<vscode.TreeItem>{
+export class CortexBuilderProvider implements vscode.TreeDataProvider<vscode.TreeItem>{
 	private rootFolder ='';
 	private context: vscode.ExtensionContext;
   private sources:  AddedTreeViewItem[] = [];
 	private includes: AddedTreeViewItem[] = [];
 	private project: AddedProjectTreeViewItem[] = [];
+	private documentation: AddedDocumentationTreeViewItem[] = [];
   private items:ItemsTreeView = {
     includes:[],
     includesDir: [],
@@ -21,24 +22,25 @@ export class TreeViewProvider implements vscode.TreeDataProvider<vscode.TreeItem
   readonly onDidChangeTreeData: vscode.Event<vscode.TreeItem | undefined> = this._onDidChangeTreeData.event;
 
 	constructor(context: vscode.ExtensionContext){
-		
-		let open = vscode.commands.registerCommand('treeViewProvider.openFile', (resource) => {
+    
+		let open = vscode.commands.registerCommand('cortexBuilderProvider.openFile', (resource) => {
 			vscode.window.showTextDocument(resource,{preview: false});});
 
-		let addNew = vscode.commands.registerCommand('treeViewProvider.addNew', (element) => {
+		let addNew = vscode.commands.registerCommand('cortexBuilderProvider.addNew', (element) => {
 			this.NewFileHandler(element);});
 
-    let addExisting = vscode.commands.registerCommand('treeViewProvider.addExisting', (element) => {
+    let addExisting = vscode.commands.registerCommand('cortexBuilderProvider.addExisting', (element) => {
       this.AddExistingFile(element);});
 
-    let _delete = vscode.commands.registerCommand('treeViewProvider.deleteFile', (element) => {
+    let _delete = vscode.commands.registerCommand('cortexBuilderProvider.deleteFile', (element) => {
 			this.DeleteFile(element);});
 		
 			context.subscriptions.push(open);
 			context.subscriptions.push(addNew);
 			context.subscriptions.push(addExisting);
 			context.subscriptions.push(_delete);
-			this.context = context;
+
+		this.context = context;
 		if (vscode.workspace.workspaceFolders !== undefined){this.rootFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;}
 	}
 
@@ -69,13 +71,15 @@ export class TreeViewProvider implements vscode.TreeDataProvider<vscode.TreeItem
     nCortexBuilder.UpdateIncludes(this.items.includes, this.items.includesDir);
 	}
 
-	public PushItems(items: ItemsTreeView, controllerInclude:string){
+	public PushItems(items: ItemsTreeView, controllerInclude:string, docs: string[]){
 		controllerInclude = path.join(this.context.globalStoragePath, 'Include',controllerInclude, controllerInclude + '.h');
 		items.includes = items.includes.filter(e => e !== controllerInclude);
+		docs = docs ? docs : [];
 		this.items = items;
 		this.sources = new Array(items.sources.length);
 		this.includes = new Array(items.includes.length);
 		this.project = new Array(4);
+		this.documentation = new Array(docs.length);
 		items.sources.forEach((src, index) =>{
 			this.sources[index] = new AddedTreeViewItem(src);
 		});
@@ -86,6 +90,11 @@ export class TreeViewProvider implements vscode.TreeDataProvider<vscode.TreeItem
 		this.project[1] = new AddedProjectTreeViewItem(path.join(this.rootFolder, 'Startup.s'));
 		this.project[2] = new AddedProjectTreeViewItem(path.join(this.rootFolder, 'Linker.ld'));
 		this.project[3] = new AddedProjectTreeViewItem(controllerInclude);
+
+		for(let i = 0; i < docs.length; ++i){
+			this.documentation[i] = new AddedDocumentationTreeViewItem(docs[i]);
+		}
+
 		this.refresh();
 	}
 
@@ -163,7 +172,7 @@ export class TreeViewProvider implements vscode.TreeDataProvider<vscode.TreeItem
 			};
 			if(type === undefined){return;}
 			vscode.window.showInputBox(inputBoxOptions).then(name => {
-				let _path = path.join(vscode.workspace.rootPath === undefined ? "" : vscode.workspace.rootPath,'user');
+				let _path = path.join(this.rootFolder,'user');
 				if (name !== undefined && type !== undefined){
 					if(element.label === "Includes"){
 						this.CreateNewFile(_path, name, type).then(fullPath =>{
@@ -244,20 +253,22 @@ export class TreeViewProvider implements vscode.TreeDataProvider<vscode.TreeItem
     this._onDidChangeTreeData.fire(undefined);
   }
 
-  getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
+  getTreeItem(element: vscode.TreeItem): vscode.TreeItem|Thenable<vscode.TreeItem> {
 		return element;
 	}
 	
-	getChildren(element?: vscode.TreeItem): Thenable<vscode.TreeItem[]> {
+	getChildren(element?: vscode.TreeItem | undefined): vscode.ProviderResult<vscode.TreeItem[]> {
 		if (element){
 			if (element.label === "Sources"){ return Promise.resolve(this.sources);} 
 			else if (element.label === "Includes") {return Promise.resolve(this.includes);}
-			else {return Promise.resolve(this.project);}
+			else if(element.label === "Project"){return Promise.resolve(this.project);}
+			else {return Promise.resolve(this.documentation);}
 		} else{
 			let sources = new RootTreeViewItem("Sources");
 			let includes = new RootTreeViewItem("Includes");
 			let project = new RootProjectTreeViewItem("Project");
-			return Promise.resolve([sources, includes, project]);
+			let documentation = new RootDocumenetationTreeViewItem("Documentation");
+			return Promise.resolve([sources, includes, project, documentation]);
 		}
   }
 }
@@ -286,13 +297,22 @@ class RootProjectTreeViewItem extends vscode.TreeItem {
   }
 }
 
+class RootDocumenetationTreeViewItem extends vscode.TreeItem {
+	constructor(
+    public readonly label: string
+  ) {
+		super(label, vscode.TreeItemCollapsibleState.Expanded);
+		this.contextValue = "RootDocumenetationTreeViewItem";
+  }
+}
+
 class AddedTreeViewItem extends vscode.TreeItem {
 	constructor(fsPath:string){
 		super(path.basename(fsPath), vscode.TreeItemCollapsibleState.None);
 		this.contextValue = "AddedTreeViewItem";
 		this.tooltip = fsPath;
 		this.command = { 
-			command: 'treeViewProvider.openFile', 
+			command: 'cortexBuilderProvider.openFile', 
 			title: "Open File", 
 			arguments: [vscode.Uri.file(fsPath)] };
 		let iconPath:string = 'type_cpp_header.svg';
@@ -315,7 +335,7 @@ class AddedProjectTreeViewItem extends vscode.TreeItem {
 		this.contextValue = "AddedProjectTreeViewItem";
 		this.tooltip = fsPath;
 		this.command = { 
-			command: 'treeViewProvider.openFile', 
+			command: 'cortexBuilderProvider.openFile', 
 			title: "Open File", 
 			arguments: [vscode.Uri.file(fsPath)] };
 		let iconPath:string = 'type_cpp_header.svg';
@@ -331,5 +351,27 @@ class AddedProjectTreeViewItem extends vscode.TreeItem {
 			dark : path.join(__dirname, '..', 'resources', 'images', iconPath),
 			light: path.join(__dirname, '..', 'resources', 'images', iconPath)
 		};
+	}
+}
+
+class AddedDocumentationTreeViewItem extends vscode.TreeItem {
+	children: vscode.TreeItem[]|undefined;
+	constructor(fsPath:string, children?: vscode.TreeItem[]){
+		let pathFile = path.dirname(fsPath).split(path.sep);
+		let label = pathFile[pathFile.length-2];
+		super(label, vscode.TreeItemCollapsibleState.None);
+		this.contextValue = "AddedDocumentationTreeViewItem";
+		this.tooltip = fsPath;
+		this.command = { 
+			command: 'vscode.openWith', 
+			title: "Open File", 
+			arguments: [vscode.Uri.file(fsPath), 'pdf.viewer', {preview: false}] };
+		let iconPath:string = 'type_pdf.svg';
+		this.iconPath = {
+			dark : path.join(__dirname, '..', 'resources', 'images', iconPath),
+			light: path.join(__dirname, '..', 'resources', 'images', iconPath)
+		};
+		
+		this.children = children;
 	}
 }

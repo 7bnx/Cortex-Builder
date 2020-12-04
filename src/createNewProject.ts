@@ -17,7 +17,8 @@ import * as nJLink from './Creator/JLink';
 import {controllersList} from './startup';
 import {projectSettings} from './Creator/CortexBuilder';
 
-export function createNewProject(){
+
+export function createNewProject1(){
   let controller:nJsonController.Data;
   let projectPath:Project;
   PickController().then(controllerName => {
@@ -31,11 +32,73 @@ export function createNewProject(){
           });
         });
       });
-    });
+    },);
     GetNewProjectPath().then(_projectPath => {
       projectPath = _projectPath;
       if (controller !== undefined){
         SaveNewProject(controller, projectPath);}
+    });
+  });
+}
+
+export function createNewProject(){
+  let controller:nJsonController.Data;
+  let projectPath:Project;
+  let isSVDDownloaded = false;
+  let isCoreDownloaded = false;
+  let isIncludeDownloaded = false;
+  let isPdfViewerDownloaded = false;
+  let isDocumentationDownloaded = false;
+  PickController().then(controllerName => {
+
+    vscode.window.withProgress({
+      location: vscode.ProgressLocation.Notification,
+      title: "Preparing project",
+      cancellable: false
+    }, () => {
+      return new Promise(resolve => {
+
+        nDownload.GetController(controllerName).then(_controller => {
+          controller = _controller;
+          
+          nDownload.GetSVD(_controller.svd).then(() => {
+            isSVDDownloaded = true;
+            if (projectPath !== undefined && isCoreDownloaded && isIncludeDownloaded && isPdfViewerDownloaded && isDocumentationDownloaded){
+              SaveNewProject(controller, projectPath); resolve();}
+          }, () =>{ resolve(); });
+          
+          nDownload.GetCore().then(() =>{
+            isCoreDownloaded = true;
+            if (projectPath !== undefined && isSVDDownloaded && isIncludeDownloaded && isPdfViewerDownloaded && isDocumentationDownloaded){
+              SaveNewProject(controller, projectPath); resolve();}
+          }, ()=> {resolve();});
+          nDownload.GetInclude(_controller.include).then(() =>{
+            isIncludeDownloaded = true;
+            if (projectPath !== undefined && isSVDDownloaded && isCoreDownloaded && isPdfViewerDownloaded && isDocumentationDownloaded){
+              SaveNewProject(controller, projectPath); resolve();}
+          }, ()=> {resolve();});
+          
+          nDownload.GetPdfViewer().then(() =>{
+            isPdfViewerDownloaded = true;
+            if (projectPath !== undefined && isSVDDownloaded && isCoreDownloaded && isIncludeDownloaded && isDocumentationDownloaded){
+              SaveNewProject(controller, projectPath); resolve();}
+          }, ()=> {resolve();});
+          
+          nDownload.GetDocumentation(_controller.documentation).then(() =>{
+            isDocumentationDownloaded = true;
+            if (projectPath !== undefined && isSVDDownloaded && isCoreDownloaded && isIncludeDownloaded && isPdfViewerDownloaded){
+              SaveNewProject(controller, projectPath); resolve();}
+          }, ()=> {resolve();});
+          
+        });
+
+        GetNewProjectPath().then(_projectPath => {
+          projectPath = _projectPath;
+          if (controller !== undefined && isSVDDownloaded && isCoreDownloaded && isIncludeDownloaded && isPdfViewerDownloaded && isDocumentationDownloaded){
+            SaveNewProject(controller, projectPath); resolve();}
+        }, ()=> {resolve();});
+
+      });
     });
   });
 }
@@ -54,6 +117,7 @@ function SaveNewProject(controller:nJsonController.Data, projectPath:Project) {
     nJLink.New(projectPath.name, projectPath.directory);
   }
   nCreateVSCodeWorkspace.New(projectPath.directory, controller).then(() =>{
+
     let open = 'Open';
     let openNclose = 'Open and close current';
     let text = 'Open New Project?';
@@ -64,6 +128,7 @@ function SaveNewProject(controller:nJsonController.Data, projectPath:Project) {
         setTimeout(() => vscode.commands.executeCommand("workbench.action.closeWindow"), 5000);}
       });
     });
+    
   });
 }
 
@@ -98,6 +163,7 @@ function GetNewProjectPath(): Promise<Project>{
         let newProject:Project = {"name":name, "directory": dir};
         resolve(newProject);
       }
+      reject();
     });
   });
 }

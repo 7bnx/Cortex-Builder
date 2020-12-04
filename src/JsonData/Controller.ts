@@ -27,6 +27,7 @@ export interface Data {
   define:           string;
   include:          string;
   interrupts:       string[];
+  documentation:    string[];
 }
 
 export function Is(json:Data) {

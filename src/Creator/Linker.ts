@@ -4,7 +4,7 @@ import * as path from 'path';
 import * as nJsonController from '../JsonData/Controller';
 
 const fileName:string = "Linker.ld";
-const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath);
+const filePath:string = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '';
 const fullPath:string = path.join(filePath, fileName);
 
 export function New(projectPath: string,  controller: nJsonController.Data){

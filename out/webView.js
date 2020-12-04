@@ -166,7 +166,7 @@ function setSettings(data) {
             CortexBuilder_1.projectSettings.deviceInc = newController.include;
             CortexBuilder_1.projectSettings.interrupts = newController.interrupts;
             nStartup.treeViewProvider.PushItems({ includes: CortexBuilder_1.projectSettings.includes, includesDir: CortexBuilder_1.projectSettings.includesDir,
-                sources: CortexBuilder_1.projectSettings.sources }, controller.include);
+                sources: CortexBuilder_1.projectSettings.sources }, controller.include, []);
             SetSettings1(data, true);
         });
     }

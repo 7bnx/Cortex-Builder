@@ -8,7 +8,7 @@ const nTerminalCommands = require("../terminalCommands");
 const CortexBuilder_1 = require("./CortexBuilder");
 const fileName = "tasks.json";
 const fileDir = ".vscode";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath, fileDir);
+const filePath = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '', fileDir);
 const fullPath = path.join(filePath, fileName);
 function New(projectPath = filePath, controller) {
     if (projectPath !== filePath) {

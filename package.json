@@ -2,7 +2,7 @@
 	"name": "cortex-builder",
 	"displayName": "Cortex Builder",
 	"description": "Write, Build, Debug for ARM cortex",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"publisher": "semyon-ivanov",
 	"readme": "README.md",
 	"license": "SEE LICENSE IN LICENSE.txt",
@@ -66,17 +66,25 @@
 		"onCommand:task.newProject",
 		"onCommand:task.expand",
 		"onCommand:task.collapse",
-		"onCommand:treeViewProvider.addExisting",
-		"onCommand:treeViewProvider.addNew",
-		"onCommand:treeViewProvider.deleteFile",
-		"onView:treeViewProvider"
+		"onCommand:cortexBuilderProvider.addExisting",
+		"onCommand:cortexBuilderProvider.addNew",
+		"onCommand:cortexBuilderProvider.deleteFile",
+		"onView:cortexBuilderProvider",
+		"onCustomEditor:pdf.viewer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"customEditors": [{
+      "viewType": "pdf.viewer",
+      "displayName": "Pdf Viewer",
+      "selector": [{
+        "filenamePattern": "*.pdf"
+      }]
+    }],
 		"views": {
 			"explorer": [
 				{
-					"id": "treeViewProvider",
+					"id": "cortexBuilderProvider",
 					"name": "Cortex Builder",
 					"when": "isProjectOpened"
 				}
@@ -84,19 +92,19 @@
 		},
 		"commands": [
 			{
-				"command": "treeViewProvider.addExisting",
+				"command": "cortexBuilderProvider.addExisting",
 				"title": "Existing"
 			},
 			{
-				"command": "treeViewProvider.addNew",
+				"command": "cortexBuilderProvider.addNew",
 				"title": "New"
 			},
 			{
-				"command": "treeViewProvider.deleteFile",
+				"command": "cortexBuilderProvider.deleteFile",
 				"title": "Delete"
 			},
 			{
-				"command": "treeViewProvider.openFile",
+				"command": "cortexBuilderProvider.openFile",
 				"title": "Open file"
 			},
 			{
@@ -193,18 +201,18 @@
 		"menus": {
 			"view/item/context": [
 				{
-					"command": "treeViewProvider.addExisting",
-					"when": "view == treeViewProvider && viewItem == RootTreeViewItem",
+					"command": "cortexBuilderProvider.addExisting",
+					"when": "view == cortexBuilderProvider && viewItem == RootTreeViewItem",
 					"group": "inline"
 				},
 				{
-					"command": "treeViewProvider.addNew",
-					"when": "view == treeViewProvider && viewItem == RootTreeViewItem",
+					"command": "cortexBuilderProvider.addNew",
+					"when": "view == cortexBuilderProvider && viewItem == RootTreeViewItem",
 					"group": "inline"
 				},
 				{
-					"command": "treeViewProvider.deleteFile",
-					"when": "view == treeViewProvider && viewItem == AddedTreeViewItem",
+					"command": "cortexBuilderProvider.deleteFile",
+					"when": "view == cortexBuilderProvider && viewItem == AddedTreeViewItem",
 					"group": "inline"
 				}
 			],

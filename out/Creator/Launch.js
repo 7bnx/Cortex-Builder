@@ -8,7 +8,7 @@ const startup_1 = require("../startup");
 const CortexBuilder_1 = require("./CortexBuilder");
 const fileName = "launch.json";
 const fileDir = ".vscode";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath, fileDir);
+const filePath = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '', fileDir);
 const fullPath = path.join(filePath, fileName);
 function New(projectPath = filePath, controller) {
     let projectName = (projectPath.split(path.sep))[projectPath.split(path.sep).length - 1];

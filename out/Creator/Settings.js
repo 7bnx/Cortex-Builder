@@ -6,7 +6,7 @@ const path = require("path");
 const vscode = require("vscode");
 const fileName = "settings.json";
 const fileDir = ".vscode";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath, fileDir);
+const filePath = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '', fileDir);
 function New(projectPath = filePath, controller) {
     if (projectPath !== filePath) {
         projectPath = path.join(projectPath, fileDir);

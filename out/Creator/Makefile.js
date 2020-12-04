@@ -6,7 +6,7 @@ const vscode = require("vscode");
 const path = require("path");
 const startup_1 = require("../startup");
 const fileName = "Makefile";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath);
+const filePath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';
 const fullPath = path.join(filePath, fileName);
 function Replace(projectType, core, flashStart, makefileFPU, makefileFLOATABI, cStandard, cppStandard, optimization, defines, includesDir, sources, flagsASM, flagsC, flagsCPP, projectPath = filePath) {
     let projectName = (projectPath.split(path.sep))[projectPath.split(path.sep).length - 1];

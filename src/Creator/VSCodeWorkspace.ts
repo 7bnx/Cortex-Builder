@@ -4,10 +4,11 @@ import * as path from 'path';
 import * as nJsonVSCWorkspace from '../JsonData/VSCWorkspaceProject';
 import * as nJsonController from '../JsonData/Controller';
 
-  const fileName:string =
-    (vscode.workspace.rootPath === undefined)? "":
-    (vscode.workspace.rootPath.split(path.sep))[vscode.workspace.rootPath.split(path.sep).length - 1] + ".code-workspace";
-  const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath);
+  //const fileName:string =
+    //(vscode.workspace.rootPath === undefined)? "":
+   // (vscode.workspace.rootPath.split(path.sep))[vscode.workspace.rootPath.split(path.sep).length - 1] + ".code-workspace";
+  const filePath:string = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '';
+  const fileName:string = filePath.split(path.sep)[0] + ".code-workspace";
   const fullPath:string = path.join(filePath, fileName);
 
 export function New(projectPath: string = filePath, controller: nJsonController.Data): Thenable<void>{

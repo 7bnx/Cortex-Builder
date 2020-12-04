@@ -5,7 +5,7 @@ const fs = require("fs");
 const vscode = require("vscode");
 const path = require("path");
 const fileName = "Startup.s";
-const dirPath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath);
+const dirPath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';
 function New(projectPath, controller) {
     Replace(controller.core, controller.startupFPU, controller.interrupts, projectPath);
 }

@@ -2,6 +2,20 @@
 
 ## Release Notes
 
+### 1.0.4
+
+##### Features
+
+ - Documentation
+     - Added Pdf.JS
+     - Controllers documentation will be automaticcaly added to the new projects
+ - Busy bar for long-time operation (new project, save settings)
+
+##### Changes
+
+  - OpenOCD
+     - Changed path. The new one should point to directory with folders *target* and *interface*
+
 ### 1.0.3
 
 ##### Improvements

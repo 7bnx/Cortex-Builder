@@ -36,7 +36,7 @@ function commandSetSettings(data){
   select[1].textContent = data.settings.standardC;
   select[2].textContent = data.settings.optimization;
   select[3].textContent = data.settings.projectType;
-  //  select[4].textContent =
+  //  select[4].textContent = //startup type
   select[5].textContent = data.settings.servertype;
   select[6].textContent = data.settings.debugger;
   if (data.settings.servertype === 'jlink'){
@@ -74,6 +74,7 @@ function commandSetSettings(data){
   document.getElementById('inputCompilerPath').value = data.general.compilerPath;
   document.getElementById('inputOpenOCDPath').value = data.general.openOCDPath;
 }
+
 window.addEventListener("resize", function(){
 	var selectorLeftMargin = '0px';
 	var selectorWidth = '0px';

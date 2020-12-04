@@ -4,9 +4,11 @@ exports.ChangeDefines = exports.New = void 0;
 const fs = require("fs");
 const vscode = require("vscode");
 const path = require("path");
-const fileName = (vscode.workspace.rootPath === undefined) ? "" :
-    (vscode.workspace.rootPath.split(path.sep))[vscode.workspace.rootPath.split(path.sep).length - 1] + ".code-workspace";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath);
+//const fileName:string =
+//(vscode.workspace.rootPath === undefined)? "":
+// (vscode.workspace.rootPath.split(path.sep))[vscode.workspace.rootPath.split(path.sep).length - 1] + ".code-workspace";
+const filePath = vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '';
+const fileName = filePath.split(path.sep)[0] + ".code-workspace";
 const fullPath = path.join(filePath, fileName);
 function New(projectPath = filePath, controller) {
     return new Promise((resolve, reject) => {

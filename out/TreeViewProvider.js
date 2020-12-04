@@ -13,6 +13,7 @@ class TreeViewProvider {
         this.sources = [];
         this.includes = [];
         this.project = [];
+        this.documentation = [];
         this.items = {
             includes: [],
             includesDir: [],
@@ -66,13 +67,14 @@ class TreeViewProvider {
         nC_CPP_Properties.UpdateIncludesDir(this.items.includesDir);
         nCortexBuilder.UpdateIncludes(this.items.includes, this.items.includesDir);
     }
-    PushItems(items, controllerInclude) {
+    PushItems(items, controllerInclude, docs) {
         controllerInclude = path.join(this.context.globalStoragePath, 'Include', controllerInclude, controllerInclude + '.h');
         items.includes = items.includes.filter(e => e !== controllerInclude);
         this.items = items;
         this.sources = new Array(items.sources.length);
         this.includes = new Array(items.includes.length);
         this.project = new Array(4);
+        this.documentation = new Array(docs.length);
         items.sources.forEach((src, index) => {
             this.sources[index] = new AddedTreeViewItem(src);
         });
@@ -83,6 +85,9 @@ class TreeViewProvider {
         this.project[1] = new AddedProjectTreeViewItem(path.join(this.rootFolder, 'Startup.s'));
         this.project[2] = new AddedProjectTreeViewItem(path.join(this.rootFolder, 'Linker.ld'));
         this.project[3] = new AddedProjectTreeViewItem(controllerInclude);
+        docs.forEach((doc, index) => {
+            this.documentation[index] = new AddedDocumentationTreeViewItem(doc);
+        });
         this.refresh();
     }
     Push(items, treeItems) {
@@ -262,15 +267,19 @@ class TreeViewProvider {
             else if (element.label === "Includes") {
                 return Promise.resolve(this.includes);
             }
-            else {
+            else if (element.label === "Project") {
                 return Promise.resolve(this.project);
+            }
+            else {
+                return Promise.resolve(this.documentation);
             }
         }
         else {
             let sources = new RootTreeViewItem("Sources");
             let includes = new RootTreeViewItem("Includes");
             let project = new RootProjectTreeViewItem("Project");
-            return Promise.resolve([sources, includes, project]);
+            let documentation = new RootDocumenetationTreeViewItem("Documentation");
+            return Promise.resolve([sources, includes, project, documentation]);
         }
     }
 }
@@ -287,6 +296,13 @@ class RootProjectTreeViewItem extends vscode.TreeItem {
         super(label, vscode.TreeItemCollapsibleState.Expanded);
         this.label = label;
         this.contextValue = "RootProjectTreeViewItem";
+    }
+}
+class RootDocumenetationTreeViewItem extends vscode.TreeItem {
+    constructor(label) {
+        super(label, vscode.TreeItemCollapsibleState.Expanded);
+        this.label = label;
+        this.contextValue = "RootDocumenetationTreeViewItem";
     }
 }
 class AddedTreeViewItem extends vscode.TreeItem {
@@ -353,6 +369,23 @@ class AddedProjectTreeViewItem extends vscode.TreeItem {
         else if (lastChar === 'd') {
             iconPath = 'type_ld.svg';
         }
+        this.iconPath = {
+            dark: path.join(__dirname, '..', 'resources', 'images', iconPath),
+            light: path.join(__dirname, '..', 'resources', 'images', iconPath)
+        };
+    }
+}
+class AddedDocumentationTreeViewItem extends vscode.TreeItem {
+    constructor(fsPath) {
+        super(path.basename(fsPath), vscode.TreeItemCollapsibleState.None);
+        this.contextValue = "AddedDocumentationTreeViewItem";
+        this.tooltip = fsPath;
+        this.command = {
+            command: 'treeViewProvider.openFile',
+            title: "Open File",
+            arguments: [vscode.Uri.file(fsPath)]
+        };
+        let iconPath = 'pdf.svg';
         this.iconPath = {
             dark: path.join(__dirname, '..', 'resources', 'images', iconPath),
             light: path.join(__dirname, '..', 'resources', 'images', iconPath)

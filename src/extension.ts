@@ -2,11 +2,13 @@ import * as vscode from 'vscode';
 import * as nNewProject from './createNewProject';
 import * as nStartup from './startup';
 import * as nTerminalCommands from './terminalCommands';
-import * as nWebView from './webView';
-
+import * as nSettings from './settings';
+import { PdfProvider } from './pdfProvider';
 
 export function activate(context: vscode.ExtensionContext) {
+
   nStartup.exec(context);
+
   let build = vscode.commands.registerCommand('task.build', ()=>{
     nTerminalCommands.Build();
   });
@@ -32,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   let settings = vscode.commands.registerCommand('task.settings', ()=>{
-    nWebView.Show();
+    nSettings.Show();
   });
 
   let newProject = vscode.commands.registerCommand('task.newProject', ()=>{

@@ -3,7 +3,7 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 
 const ext:string = ".jlink";
-const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" : path.join(vscode.workspace.rootPath, 'Jlink'));
+const filePath:string = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '', 'Jlink');
 
 export function New(projectName:string = '', projectPath:string = ''){
   if (projectName === '' || projectPath === ''){

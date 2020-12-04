@@ -1,6 +1,3 @@
-import { Interface } from "readline";
-
-
 export interface JsonVSCWorkspace {
   folders:  Folder[];
 }

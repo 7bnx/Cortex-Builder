@@ -6,6 +6,7 @@ const path = require("path");
 const CortexBuilder_1 = require("./Creator/CortexBuilder");
 const nLaunch = require("./Creator/Launch");
 const _windowsEchoEnd = " & echo. & echo Done";
+//const _windowsEchoEnd:string = "";
 const _buildCommand = "make -s -j 10 all";
 const _cleanCommand = "make -s clean";
 function _flashOpeocdCommand() { return ` -c "init; reset halt; flash write_image erase output/${CortexBuilder_1.projectSettings.projectName}.hex; reset; exit"`; }
@@ -15,8 +16,8 @@ exports._resetOpeocdCommand = ` -c "init; reset; exit"`;
 function writeCommand(command, taskName) {
     return new Promise((resolve, reject) => {
         let op = {
-            executable: "cmd.exe",
-            shellArgs: ["/C"],
+        //executable: "cmd.exe",
+        //shellArgs: ["/C"],
         };
         let execution = new vscode.ShellExecution(command, op);
         let task = new vscode.Task({ type: 'shell' }, vscode.TaskScope.Workspace, taskName, ' ', execution);

@@ -6,7 +6,7 @@ import * as nJsonController from '../JsonData/Controller';
 
 const fileName:string = "settings.json";
 const fileDir:string = ".vscode";
-const filePath:string = path.join((vscode.workspace.rootPath === undefined)? "" :vscode.workspace.rootPath,fileDir);
+const filePath:string = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath: '',fileDir);
 
 export function New(projectPath: string = filePath, controller: nJsonController.Data){
   if (projectPath !== filePath){projectPath = path.join(projectPath, fileDir);}

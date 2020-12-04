@@ -8,7 +8,7 @@ const startup_1 = require("../startup");
 const CortexBuilder_1 = require("./CortexBuilder");
 const fileName = "c_cpp_properties.json";
 const fileDir = ".vscode";
-const filePath = path.join((vscode.workspace.rootPath === undefined) ? "" : vscode.workspace.rootPath, fileDir);
+const filePath = path.join(vscode.workspace.workspaceFolders ? vscode.workspace.workspaceFolders[0].uri.fsPath : '', fileDir);
 const fullPath = path.join(filePath, fileName);
 function New(projectPath = filePath, include, defines) {
     let includesDir = [path.join(startup_1.context.globalStoragePath, 'Core'),
@@ -21,7 +21,7 @@ function New(projectPath = filePath, include, defines) {
     let cStandard = startup_1.context.globalState.get('cStandard', 'c11');
     let cppStandard = startup_1.context.globalState.get('cppStandard', 'c++17');
     let configuration = {
-        name: "win32",
+        name: "Cortex-Builder",
         compilerPath: compilerPath,
         defines: defines,
         includePath: includesDir,
