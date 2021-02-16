@@ -2,7 +2,7 @@
 
 ![Front](https://raw.githubusercontent.com/7bnx/Cortex-Builder/master/resources/media/Front.png)
 
-This extension generates files for **VSCode** to write, build and debug code for cortex controllers with Arm GCC Toolchain and make tool. List of supported controllers, svd, include files are presented in the [repo](https://github.com/7bnx/Cortex-Builder-Essentials).
+This [extension](https://marketplace.visualstudio.com/items?itemName=semyon-ivanov.cortex-builder) generates files for **VSCode** to write, build and debug code for cortex controllers with Arm GCC Toolchain and make tool. List of supported controllers, svd, include files are presented in the [repo](https://github.com/7bnx/Cortex-Builder-Essentials).
 
 > **WARNING**: Tested with Windows 10 only!
 
@@ -28,6 +28,18 @@ If you like this extension, you could support its development
     ![MenuBar](https://raw.githubusercontent.com/7bnx/Cortex-Builder/master/resources/media/MenuBar.gif)
 
 ## Release Notes
+
+### 1.0.5
+
+##### Changes
+
+  - Cortex Builder Tree
+      - Replaced names of operations with files (create new file, delete file) to corresponding icons
+
+##### Fixes 
+
+ - Documentation:
+     - Starts with last viewed page, when VSCode was closed and reopened
 
 ### 1.0.4
 
@@ -55,14 +67,6 @@ If you like this extension, you could support its development
 
  - Jlink:
      - Fixed issue of jlink with openOCD (Flash, Erase, Reset)
-
-### 1.0.2
-
-##### Fixes 
-
- - Makefile:
-     - Change 'clean' target to be compatible with [Windows Build Tools](https://github.com/xpack-dev-tools/windows-build-tools-xpack/releases)
-
 
 ## Usage
 

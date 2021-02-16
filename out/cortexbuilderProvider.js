@@ -24,13 +24,13 @@ class CortexBuilderProvider {
         let open = vscode.commands.registerCommand('cortexBuilderProvider.openFile', (resource) => {
             vscode.window.showTextDocument(resource, { preview: false });
         });
-        let addNew = vscode.commands.registerCommand('cortexBuilderProvider.addNew', (element) => {
+        let addNew = vscode.commands.registerCommand('cortexBuilderProvider.createNew', (element) => {
             this.NewFileHandler(element);
         });
         let addExisting = vscode.commands.registerCommand('cortexBuilderProvider.addExisting', (element) => {
             this.AddExistingFile(element);
         });
-        let _delete = vscode.commands.registerCommand('cortexBuilderProvider.deleteFile', (element) => {
+        let _delete = vscode.commands.registerCommand('cortexBuilderProvider.removeFile', (element) => {
             this.DeleteFile(element);
         });
         context.subscriptions.push(open);
@@ -388,7 +388,7 @@ class AddedDocumentationTreeViewItem extends vscode.TreeItem {
             title: "Open File",
             arguments: [vscode.Uri.file(fsPath), 'pdf.viewer', { preview: false }]
         };
-        let iconPath = 'pdf.svg';
+        let iconPath = 'type_pdf.svg';
         this.iconPath = {
             dark: path.join(__dirname, '..', 'resources', 'images', iconPath),
             light: path.join(__dirname, '..', 'resources', 'images', iconPath)

@@ -2,6 +2,18 @@
 
 ## Release Notes
 
+### 1.0.5
+
+##### Changes
+
+  - Cortex Builder Tree
+      - Replaced names of operations with files (create new file, delete file) to corresponding icons
+
+##### Fixes 
+
+ - Documentation:
+     - Starts with last viewed page, when VSCode was closed and reopened
+
 ### 1.0.4
 
 ##### Features

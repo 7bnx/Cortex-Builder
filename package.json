@@ -2,7 +2,7 @@
 	"name": "cortex-builder",
 	"displayName": "Cortex Builder",
 	"description": "Write, Build, Debug for ARM cortex",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"publisher": "semyon-ivanov",
 	"readme": "README.md",
 	"license": "SEE LICENSE IN LICENSE.txt",
@@ -30,7 +30,7 @@
 	},
 	"qna": "https://github.com/7bnx/Cortex-Builder/issues",
 	"engines": {
-		"vscode": "^1.47.0"
+		"vscode": "^1.53.1"
 	},
 	"categories": [
 		"Programming Languages",
@@ -67,8 +67,8 @@
 		"onCommand:task.expand",
 		"onCommand:task.collapse",
 		"onCommand:cortexBuilderProvider.addExisting",
-		"onCommand:cortexBuilderProvider.addNew",
-		"onCommand:cortexBuilderProvider.deleteFile",
+		"onCommand:cortexBuilderProvider.createNew",
+		"onCommand:cortexBuilderProvider.removeFile",
 		"onView:cortexBuilderProvider",
 		"onCustomEditor:pdf.viewer"
 	],
@@ -93,15 +93,19 @@
 		"commands": [
 			{
 				"command": "cortexBuilderProvider.addExisting",
-				"title": "Existing"
+				"title": "Add existing files",
+				"icon": "$(files)"
 			},
 			{
-				"command": "cortexBuilderProvider.addNew",
-				"title": "New"
+				"command": "cortexBuilderProvider.createNew",
+				"title": "Create new file",
+				"icon": "$(add)"
 			},
 			{
-				"command": "cortexBuilderProvider.deleteFile",
-				"title": "Delete"
+				"command": "cortexBuilderProvider.removeFile",
+				"title": "Remove file from project",
+				"icon": "$(remove)"
+
 			},
 			{
 				"command": "cortexBuilderProvider.openFile",
@@ -206,12 +210,12 @@
 					"group": "inline"
 				},
 				{
-					"command": "cortexBuilderProvider.addNew",
+					"command": "cortexBuilderProvider.createNew",
 					"when": "view == cortexBuilderProvider && viewItem == RootTreeViewItem",
 					"group": "inline"
 				},
 				{
-					"command": "cortexBuilderProvider.deleteFile",
+					"command": "cortexBuilderProvider.removeFile",
 					"when": "view == cortexBuilderProvider && viewItem == AddedTreeViewItem",
 					"group": "inline"
 				}
@@ -220,52 +224,52 @@
 				{
 					"when": "isProjectOpened",
 					"command": "task.build",
-					"group": "navigation@0"
+					"group": "navigation@36"
 				},
 				{
 					"when": "isProjectOpened && isBarExpanded",
 					"command": "task.clean",
-					"group": "navigation@0"
+					"group": "navigation@36"
 				},
 				{
 					"when": "isProjectOpened",
 					"command": "task.flash",
-					"group": "navigation@1"
+					"group": "navigation@37"
 				},
 				{
 					"when": "isProjectOpened && isBarExpanded",
 					"command": "task.erase",
-					"group": "navigation@2"
+					"group": "navigation@38"
 				},
 				{
 					"when": "isProjectOpened && isBarExpanded",
 					"command": "task.reset",
-					"group": "navigation@2"
+					"group": "navigation@38"
 				},
 				{
 					"when": "isProjectOpened && isBarExpanded",
 					"command": "task.debug",
-					"group": "navigation@3"
+					"group": "navigation@39"
 				},
 				{
 					"when": "isProjectOpened && isBarExpanded",
 					"command": "task.settings",
-					"group": "navigation@3"
+					"group": "navigation@39"
 				},
 				{
 					"when": "isControllersListReceived && isBarExpanded",
 					"command": "task.newProject",
-					"group": "navigation@3"
+					"group": "navigation@39"
 				},
 				{
 					"when": "isProjectOpened && !isBarExpanded",
 					"command": "task.expand",
-					"group": "navigation@4"
+					"group": "navigation@40"
 				},
 				{
 					"when": "isProjectOpened && isBarExpanded",
 					"command": "task.collapse",
-					"group": "navigation@4"
+					"group": "navigation@40"
 				}
 			]
 		}
@@ -279,7 +283,7 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.46.0",
+		"@types/vscode": "^1.53.1",
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.2",
 		"@types/node": "^13.11.0",

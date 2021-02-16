@@ -24,7 +24,9 @@ const vscode = acquireVsCodeApi();
       PDFViewerApplication.eventBus.on("pagesinit", function() {
         PDFViewerApplication.pdfSidebar.setInitialView(2); // to outline
         PDFViewerApplication.pdfSidebar.switchView(0, true); // hide
-        PDFViewerApplication.page = defaults.page;
+        let page = PDFViewerApplication.page;
+        if (page === 1) page = defaults.page;
+        PDFViewerApplication.page = page;
       });
 
       PDFViewerApplication.eventBus.on("pagechanging", function() {
