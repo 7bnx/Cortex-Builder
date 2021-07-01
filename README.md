@@ -29,6 +29,13 @@ If you like this extension, you could support its development
 
 ## Release Notes
 
+### 1.0.6
+
+##### Fixes 
+
+ - Command execution
+     - Forced shell to Cmd.exe with args "\C"
+
 ### 1.0.5
 
 ##### Changes
@@ -54,19 +61,6 @@ If you like this extension, you could support its development
 
   - OpenOCD
      - Changed path. The new one should point to directory with folders *target* and *interface*
-     
-### 1.0.3
-
-##### Improvements
-
- - openeOCD
-     - Remove 'reset' of target after erase
-     - Add echo 'Done'
-
-##### Fixes 
-
- - Jlink:
-     - Fixed issue of jlink with openOCD (Flash, Erase, Reset)
 
 ## Usage
 

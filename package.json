@@ -2,7 +2,7 @@
 	"name": "cortex-builder",
 	"displayName": "Cortex Builder",
 	"description": "Write, Build, Debug for ARM cortex",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"publisher": "semyon-ivanov",
 	"readme": "README.md",
 	"license": "SEE LICENSE IN LICENSE.txt",
@@ -72,6 +72,11 @@
 		"onView:cortexBuilderProvider",
 		"onCustomEditor:pdf.viewer"
 	],
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"supported": true
+		}
+	},
 	"main": "./out/extension.js",
 	"contributes": {
 		"customEditors": [{

@@ -3,7 +3,8 @@ import * as path from 'path';
 import {projectSettings} from './Creator/CortexBuilder';
 import * as nLaunch from './Creator/Launch';
 
-const _windowsEchoEnd:string = " & echo. & echo Done";
+const _windowsEchoEndCmd:string = " & echo. & echo Done";
+const _windowsEchoEndPowerShell:string = "; echo \"`n\"; echo Done";
 //const _windowsEchoEnd:string = "";
 const _buildCommand:string = "make -s -j 10 all";
 const _cleanCommand:string = "make -s clean";
@@ -14,11 +15,13 @@ export const _resetOpeocdCommand:string = ` -c "init; reset; exit"`;
 function writeCommand(command: string, taskName: string): Thenable<void>{
   return new Promise((resolve, reject) => {
     let op:vscode.ShellExecutionOptions = {
-      //executable: "cmd.exe",
-      //shellArgs: ["/C"],
+      executable: "cmd.exe",
+      shellArgs: ["/C"],
     };
+
     let execution = new vscode.ShellExecution(
         command, op);
+
     let task = new vscode.Task(
       { type: 'shell'},
       vscode.TaskScope.Workspace,
@@ -105,6 +108,8 @@ export function OpenocdCommand(command:string):string{
   configFiles.forEach(file => {
     _command += ' -f ' + file; 
   });
-  _command += command + _windowsEchoEnd;
+  //let endCommand = vscode.ShellExecution.name === "powershell.exe" ? _windowsEchoEndPowerShell : _windowsEchoEndCmd;
+  let endCommand = _windowsEchoEndCmd;
+  _command += command + endCommand;
   return _command; 
 }

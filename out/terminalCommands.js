@@ -5,7 +5,8 @@ const vscode = require("vscode");
 const path = require("path");
 const CortexBuilder_1 = require("./Creator/CortexBuilder");
 const nLaunch = require("./Creator/Launch");
-const _windowsEchoEnd = " & echo. & echo Done";
+const _windowsEchoEndCmd = " & echo. & echo Done";
+const _windowsEchoEndPowerShell = "; echo \"`n\"; echo Done";
 //const _windowsEchoEnd:string = "";
 const _buildCommand = "make -s -j 10 all";
 const _cleanCommand = "make -s clean";
@@ -16,8 +17,8 @@ exports._resetOpeocdCommand = ` -c "init; reset; exit"`;
 function writeCommand(command, taskName) {
     return new Promise((resolve, reject) => {
         let op = {
-        //executable: "cmd.exe",
-        //shellArgs: ["/C"],
+            executable: "cmd.exe",
+            shellArgs: ["/C"],
         };
         let execution = new vscode.ShellExecution(command, op);
         let task = new vscode.Task({ type: 'shell' }, vscode.TaskScope.Workspace, taskName, ' ', execution);
@@ -100,7 +101,9 @@ function OpenocdCommand(command) {
     configFiles.forEach(file => {
         _command += ' -f ' + file;
     });
-    _command += command + _windowsEchoEnd;
+    //let endCommand = vscode.ShellExecution.name === "powershell.exe" ? _windowsEchoEndPowerShell : _windowsEchoEndCmd;
+    let endCommand = _windowsEchoEndCmd;
+    _command += command + endCommand;
     return _command;
 }
 exports.OpenocdCommand = OpenocdCommand;

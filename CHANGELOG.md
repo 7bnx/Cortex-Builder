@@ -2,6 +2,13 @@
 
 ## Release Notes
 
+### 1.0.6
+
+##### Fixes 
+
+ - Command execution
+     - Forced shell to Cmd.exe with args "\C"
+
 ### 1.0.5
 
 ##### Changes
